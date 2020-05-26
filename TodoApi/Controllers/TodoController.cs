@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TodoApi.Domain;
@@ -27,6 +28,7 @@ namespace TodoApi.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "manager, analyst")]
         public ActionResult<ToDoItem> Post([FromBody] ToDoItem item)
         {
             if (!ModelState.IsValid)
@@ -38,6 +40,7 @@ namespace TodoApi.Controllers
 
        
         [HttpDelete("{id}")]
+        [Authorize(Roles = "manager")]
         public IActionResult Delete(Guid id)
         {
             _todoService.Delete(id);
